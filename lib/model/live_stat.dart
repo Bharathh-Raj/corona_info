@@ -24,8 +24,10 @@ class LiveStat extends Equatable {
 
       
   factory LiveStat.fromJson(Map<String, dynamic> json) {
+    String onlyNumeric=json['total_cases'].toString().replaceAll(',', '');
+    
     return LiveStat(
-        totalCases: json['total_cases']==''?'0':json['total_cases'],
+        totalCases: onlyNumeric==''?'0':onlyNumeric,
         newCases: json['new_cases']==''?'0':json['new_cases'],
         activeCases: json['active_cases']==''?'0':json['active_cases'],
         totalDeaths: json['total_deaths']==''?'0':json['total_deaths'],

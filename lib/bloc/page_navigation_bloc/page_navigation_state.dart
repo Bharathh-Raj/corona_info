@@ -8,3 +8,5 @@ abstract class PageNavigationState extends Equatable{
 class ArticlePageState extends PageNavigationState{}
 
 class LiveCountPageState extends PageNavigationState{}
+
+class StateStatPageState extends PageNavigationState{}

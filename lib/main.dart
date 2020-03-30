@@ -1,3 +1,4 @@
+import 'package:corona_app/pages/state_stat_page.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/live_stat_bloc/live_stat_bloc.dart';
 import 'bloc/news_article_bloc/bloc.dart';
 import 'bloc/page_navigation_bloc/bloc.dart';
+import 'bloc/state_stat_bloc/statestatbloc_bloc.dart';
 import 'pages/article_page.dart';
 import 'pages/live_count_page.dart';
 
@@ -25,6 +27,9 @@ void main() {
             ),
             BlocProvider<LiveStatBloc>(
               create:(ctx)=>LiveStatBloc(),
+            ),
+            BlocProvider(
+              create: (ctx)=>StateStatBloc(),
             )
           ],
           child: MyApp())),
@@ -41,6 +46,7 @@ class MyApp extends StatelessWidget {
               title: Text('COVID-19 Info'),
             ),
             bottomNavigationBar: CurvedNavigationBar(
+              animationDuration: Duration(milliseconds: 400),
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 buttonBackgroundColor: Theme.of(context).accentColor,
                 height: 50,
@@ -51,6 +57,11 @@ class MyApp extends StatelessWidget {
                     Icons.assessment,
                       size: 30, color: Theme.of(context).scaffoldBackgroundColor),
                   Icon(
+                    Icons.location_on,
+                    size:30,
+                    color:Theme.of(context).scaffoldBackgroundColor,
+                  ),
+                  Icon(
                     Icons.list,
                     size: 30,
                     color: Theme.of(context).scaffoldBackgroundColor,
@@ -60,6 +71,8 @@ class MyApp extends StatelessWidget {
                   if(index==0)
                     navigationBloc.add(LiveCountPageEvent());
                   else if(index==1)
+                    navigationBloc.add(StateStatPageEvent());
+                  else if(index==2)
                     navigationBloc.add(ArticlePageEvent());
                 },
               ),
@@ -70,6 +83,8 @@ class MyApp extends StatelessWidget {
                     return ArticlePage();
                   else if(pageNavigationState is LiveCountPageState)
                     return LiveCountPage();
+                  else if(pageNavigationState is StateStatPageState)
+                    return StateStatPage();
                   return null;
                 }
             )

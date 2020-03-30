@@ -13,12 +13,10 @@ Future<List<Article>> fetchArticle(NewsArticleBloc articleBloc) async{
     response=await http.get(url);
   }on SocketException{
     articleBloc.add(SocketExceptionEvent());
-    print('Internet is not available...');
   }on HttpException{
     articleBloc.add(HttpExceptionEvent());
-    print('Couldn\'t find the post');
-  }on FormatException{
-    print('Bad response format');
+  }catch(exception){
+    print(exception);
   }
   if(response.statusCode==200){
     final responseJson=json.decode(response.body);

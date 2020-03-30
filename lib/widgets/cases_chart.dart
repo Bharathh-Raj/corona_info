@@ -31,11 +31,9 @@ class _DateVsCasesChartState extends State<DateVsCasesChart> {
       dateList.add(val.recordDate.substring(0, 10));
       casesList.add(val.totalCases);
     });
-    print(widget.statList.length);
-    print(dateList);
 
     for(int i=0;i<dateList.length;i++){
-      flSpotList.add(FlSpot(double.parse(i.toString()),double.parse(casesList[i].toString())/500));
+      flSpotList.add(FlSpot(double.parse(i.toString()),double.parse(casesList[int.parse(i.toString())].toString())/500));
     }
     return Stack(
       children: <Widget>[

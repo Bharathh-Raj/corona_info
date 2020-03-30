@@ -9,3 +9,5 @@ abstract class PageNavigationEvent extends Equatable{
 class ArticlePageEvent extends PageNavigationEvent{}
 
 class LiveCountPageEvent extends PageNavigationEvent{}
+
+class StateStatPageEvent extends PageNavigationEvent{}

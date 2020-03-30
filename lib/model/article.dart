@@ -17,7 +17,6 @@ class Article extends Equatable{
     this.dateTime,
   })  : assert(source!=null),
         assert(title!=null),
-        assert(description!=null),
         assert(url!=null),
         assert(dateTime!=null);
 

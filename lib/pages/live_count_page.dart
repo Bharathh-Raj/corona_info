@@ -13,9 +13,11 @@ class LiveCountPage extends StatelessWidget {
         bloc: liveStatBloc,
         builder: (context, liveStatState) {
           if (liveStatState is InitialLiveStatState) {
+            print('initialLivestatState');
             liveStatBloc.add(LoadLiveStatEvent(liveStatBloc));
             return Center(child: CircularProgressIndicator());
           } else if (liveStatState is SocketExceptionState) {
+            print('socketexception');
             return Center(
                 child: AlertDialog(
               content: Text('Internet is not available...'),
@@ -27,13 +29,14 @@ class LiveCountPage extends StatelessWidget {
                 FlatButton(
                   child: Text('Try again'),
                   onPressed: () {
-                    // Navigator.pop(context);
                     liveStatBloc.add(LoadLiveStatEvent(liveStatBloc));
+                    // Navigator.pop(context);
                   },
                 )
               ],
             ));
           } else if (liveStatState is HttpExceptionState) {
+            print('httpexception');
             return Center(
                 child: AlertDialog(
               content: Text('Server error!'),
@@ -46,12 +49,13 @@ class LiveCountPage extends StatelessWidget {
                   child: Text('Try again'),
                   onPressed: () {
                     liveStatBloc.add(LoadLiveStatEvent(liveStatBloc));
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
                   },
                 )
               ],
             ));
           } else if (liveStatState is FetchCompleteState) {
+            print('fetchcomplete');
             final statList = liveStatState.statList.last;
             return ListView(
               children: <Widget>[

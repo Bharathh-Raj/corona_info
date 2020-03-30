@@ -15,5 +15,7 @@ class PageNavigationBloc extends Bloc<PageNavigationEvent, PageNavigationState> 
       yield ArticlePageState();
     else if(event is LiveCountPageEvent)
       yield LiveCountPageState();
+    else if(event is StateStatPageEvent)
+      yield StateStatPageState();
   }
 }

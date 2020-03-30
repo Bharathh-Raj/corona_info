@@ -12,10 +12,14 @@ Future<List<LiveStat>> fetchStat(LiveStatBloc statBloc) async{
   final liveStatList=new List<LiveStat>();
   http.Response response;
   try{
+    print('try http.get');
     response=await http.get(url,headers:headers);
+    print('crossed try http.get');
   }on SocketException{
+    print('socketexception');
     statBloc.add(SocketExceptionEvent());
   }on HttpException{
+    print('httpexception');
     statBloc.add(HttpExceptionEvent());
   }catch(exception){
     print(exception);
