@@ -30,7 +30,9 @@ Future<List<LiveStat>> fetchStat(LiveStatBloc statBloc) async{
       liveStatList.add(LiveStat.fromJson(i));
     }
     return getDateList(liveStatList);
-  }else{}
+  }else{
+    return null;
+  }
 }
 
 List<LiveStat> getDateList(List<LiveStat> livestat){

@@ -25,5 +25,6 @@ Future<List<Article>> fetchArticle(NewsArticleBloc articleBloc) async{
     }
     return articleList;
   }else{
+    return null;
   }
 }

@@ -21,6 +21,40 @@ class _DateVsCasesChartState extends State<DateVsCasesChart> {
   List<String> dateList;
   List<FlSpot> flSpotList;
 
+  int baseYData;
+
+  int baseYaxisData(String lastCaseNumber){
+    double secondDigit=double.parse(lastCaseNumber.substring(1,2));
+    StringBuffer baseY;
+    if(secondDigit>5){
+      baseY=new StringBuffer();
+      for(int i=0;i<lastCaseNumber.length;i++){
+        if(i==0)
+          baseY.write((int.parse(lastCaseNumber.substring(0,1))+1).toString());
+        else{
+          baseY.write('0');
+        }
+      }
+      return int.parse(baseY.toString());
+    }
+    else if(secondDigit<5){
+      baseY=new StringBuffer();
+      for(int i=0;i<lastCaseNumber.length;i++){
+        if(i==0){
+          baseY.write(lastCaseNumber.substring(0,1));
+        }
+        else if(i==1){
+          baseY.write('5');
+        }
+        else{
+          baseY.write('0');
+        }
+      }
+      return int.parse(baseY.toString());
+    }
+    else return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     dateList = new List<String>();
@@ -32,25 +66,42 @@ class _DateVsCasesChartState extends State<DateVsCasesChart> {
       casesList.add(val.totalCases);
     });
 
+    baseYData=baseYaxisData(casesList.last)~/8;
+
     for(int i=0;i<dateList.length;i++){
-      flSpotList.add(FlSpot(double.parse(i.toString()),double.parse(casesList[int.parse(i.toString())].toString())/500));
+      flSpotList.add(FlSpot(double.parse(i.toString()),double.parse(casesList[i].toString())/baseYData));
     }
+
+    print(baseYaxisData('1024').toString());
+    print(baseYaxisData('7424').toString());
+    print(baseYaxisData('13224').toString());
+    print(baseYaxisData('1924').toString());
+    print(baseYaxisData('19024').toString());
+    print(baseYaxisData('343024').toString());
+    print(baseYaxisData('12').toString());
+    print(baseYaxisData('99999').toString());
+
+
     return Stack(
       children: <Widget>[
-        AspectRatio(
-          aspectRatio: 1.5,
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(18),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).orientation==Orientation.landscape?MediaQuery.of(context).size.height:MediaQuery.of(context).size.height/3,
+          child: AspectRatio(
+            aspectRatio: 1.5,
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(18),
+                  ),
+                  color:Colors.transparent
+                  ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    right: 18.0, left: 12.0, top: 24, bottom: 0),
+                child: LineChart(
+                  mainData(),
                 ),
-                color:Colors.transparent
-                ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  right: 18.0, left: 12.0, top: 24, bottom: 0),
-              child: LineChart(
-                mainData(),
               ),
             ),
           ),
@@ -96,42 +147,28 @@ class _DateVsCasesChartState extends State<DateVsCasesChart> {
       ),
       titlesData: FlTitlesData(
         show: true,
-        bottomTitles: SideTitles(
+        bottomTitles: SideTitles(                          // X AXIS DATA
           showTitles: true,
           reservedSize: 22,
           textStyle: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+              color: Colors.white, fontSize: 6),
           getTitles: (value) {
-            return dateList[value.toInt()].substring(8,10);
+            String presentValue=dateList[value.toInt()];
+            return presentValue.substring(8,10)+"\n-"+'\n'+presentValue.substring(5,7);
           },
           margin: 8,
         ),
-        leftTitles: SideTitles(
+        leftTitles: SideTitles(                             //Y AXIS DATA
           showTitles: true,
           textStyle: TextStyle(
             color: Colors.white,
             fontSize: 12,
           ),
           getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '500';
-              case 2:
-                return '1000';
-              case 3:
-                return '1500';
-              case 4:
-                return '2000';
-              case 5:
-                return '2500';
-              case 6:
-                return '3000';
-              case 7:
-                return '3500';
-              case 8:
-                return '4000';
-            }
-            return '';
+            // if(value==8){
+            //   return baseYaxisData(casesList.last).toString();
+            // }
+            return (baseYData*(value.toInt())).toString();
           },
           reservedSize: 28,
           margin: 12,

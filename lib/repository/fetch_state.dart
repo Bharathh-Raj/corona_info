@@ -25,5 +25,7 @@ Future<List<StateStat>> fetchStateStat(StateStatBloc stateStatBloc) async{
     }
     return stateStatList;
   }
-  else{}
+  else{
+    return null;
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:corona_app/bloc/graph_value_bloc/graph_value_bloc.dart';
 
 import 'package:corona_app/bloc/live_stat_bloc/live_stat_state.dart';
 import 'package:corona_app/model/live_stat.dart';
@@ -20,6 +21,7 @@ class LiveStatBloc extends Bloc <LiveStatEvent, LiveStatState> {
     }
     else if(event is LoadLiveStatEvent){
       List<LiveStat> statList = await fetchStat(event.liveStatBloc);
+      // event.graphValueBloc.add(LoadGraphValueEvent());
       yield FetchCompleteState(statList);
     }
     else if(event is SocketExceptionEvent){

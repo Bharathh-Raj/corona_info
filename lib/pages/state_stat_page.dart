@@ -95,6 +95,7 @@ class StateStatPage extends StatelessWidget {
                   );
                 });
           }
+          else return null;
         });
   }
 }
