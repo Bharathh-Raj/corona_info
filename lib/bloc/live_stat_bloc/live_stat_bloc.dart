@@ -21,7 +21,7 @@ class LiveStatBloc extends Bloc <LiveStatEvent, LiveStatState> {
     }
     else if(event is LoadLiveStatEvent){
       List<LiveStat> statList = await fetchStat(event.liveStatBloc);
-      // event.graphValueBloc.add(LoadGraphValueEvent());
+      event.graphValueBloc.add(LoadGraphValueEvent(stat:statList));
       yield FetchCompleteState(statList);
     }
     else if(event is SocketExceptionEvent){

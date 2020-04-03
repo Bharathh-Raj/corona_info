@@ -13,30 +13,37 @@ class GraphValueBloc extends Bloc<GraphValueEvent, GraphValueState> {
   @override
   Stream<GraphValueState> mapEventToState(GraphValueEvent event) async*{
     if (event is LoadGraphValueEvent) {
-      mapLoadEventToState(event);
+      yield mapLoadEventToState(event);
     }
   }
 
-  Stream<LoadedGraphValueState> mapLoadEventToState(LoadGraphValueEvent event) async*{
-    List<String> dateList;
-    List<String> numCasesList;
-    
-    event.indiaStat.forEach((val) {
-      dateList.add(val.recordDate.substring(8, 10) +
-          "\n-\n" +
-          val.recordDate.substring(5, 7));                      //Gives In the format 21-03 or 31-05
+  LoadedGraphValueState mapLoadEventToState(LoadGraphValueEvent event) {
+    List<String> dateList=new List<String>();
+    List<String> numCasesList=new List<String>();
+    event.stat.forEach((val) {
+      dateList.add(val.recordDate.substring(0, 10));                      //Gives In the format 21-03 or 31-05
       numCasesList.add(val.totalCases);
     });
+
     
+    //   dateList.add(val.recordDate.substring(8, 10) +
+    //       "\n-\n" +
+    //       val.recordDate.substring(5, 7));                      //Gives In the format 21-03 or 31-05
+    //   numCasesList.add(val.totalCases);
+    // });
     double baseY=getBaseY(numCasesList.last);
-    
-    List<String> listOfXaxis= dateList;
-    List<String> listOfYaxis = List.generate(8, (ind) => (baseY * double.parse(ind.toString()).round()).toString());
+    List<String> listOfXaxis= new List<String>();
+    for(int i=0;i<dateList.length;i++){
+      listOfXaxis.add(dateList[i].substring(8,10)+'\n-\n'+dateList[i].substring(5,7));
+    }
+    dateList.forEach((date)=>date.substring(8,10)+"\n-\n+"+date.substring(5,7));
+    List<String> listOfYaxis = List.generate(9, (ind) => (baseY * double.parse(ind.toString())).round().toString());
+    print(listOfYaxis.toString());
     List<FlSpot> listOfSpot=List.generate(numCasesList.length, (ind)=>FlSpot(ind.toDouble(),double.parse(numCasesList[ind])/baseY));
     double maxXcoordinate=dateList.length.toDouble();
-    double maxYcoordinate=8.0;
+    double maxYcoordinate=9.0;
     
-    yield LoadedGraphValueState(listOfXaxis: listOfXaxis,listOfYaxis: listOfYaxis,listOfSpot: listOfSpot,maxXcoordinates: maxXcoordinate,maxYcoordinates: maxYcoordinate);
+    return LoadedGraphValueState(listOfXaxis: listOfXaxis,listOfYaxis: listOfYaxis,listOfSpot: listOfSpot,maxXcoordinates: maxXcoordinate,maxYcoordinates: maxYcoordinate,listOfDates: dateList,listOfCases: numCasesList);
   }
 
   double getBaseY(String largestNumCases) {
