@@ -3,10 +3,10 @@ part of 'graph_value_bloc.dart';
 abstract class GraphValueEvent extends Equatable{}
 
 class LoadGraphValueEvent extends GraphValueEvent{
-  final List<LiveStat> stat; 
+  final List<LiveStat> indiaStat; 
 
-  LoadGraphValueEvent({this.stat});
+  LoadGraphValueEvent({this.indiaStat});
   @override
-  List<Object> get props => [stat];
+  List<Object> get props => [indiaStat];
 
 }

@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'bloc/graph_value_bloc/graph_value_bloc.dart';
 import 'bloc/world_stat_bloc/worldstat_bloc.dart';
 import 'bloc/live_stat_bloc/live_stat_bloc.dart';
 import 'bloc/news_article_bloc/bloc.dart';
@@ -37,9 +36,6 @@ void main() {
             // ),
             BlocProvider(
               create:(ctx)=>WorldstatBloc(),
-            ),
-            BlocProvider(
-              create: (ctx)=>GraphValueBloc(),
             )
           ],
           child: MyApp())),

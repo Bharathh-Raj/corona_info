@@ -1,4 +1,3 @@
-import 'package:corona_app/bloc/graph_value_bloc/graph_value_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,14 +12,13 @@ class LiveCountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final indiaStatBloc = BlocProvider.of<india.LiveStatBloc>(context);
     final worldStatBloc = BlocProvider.of<world.WorldstatBloc>(context);
-    final graphValueBloc = BlocProvider.of<GraphValueBloc>(context);
 
     return BlocBuilder<india.LiveStatBloc, india.LiveStatState>(
         bloc: indiaStatBloc,
         builder: (context, liveStatState) {
           if (liveStatState is india.InitialLiveStatState) {
             print('initialLivestatState');
-            indiaStatBloc.add(india.LoadLiveStatEvent(liveStatBloc: indiaStatBloc,graphValueBloc: graphValueBloc));
+            indiaStatBloc.add(india.LoadLiveStatEvent(liveStatBloc: indiaStatBloc));
             return Center(child: CircularProgressIndicator());
           } else if (liveStatState is india.SocketExceptionState) {
             print('socketexception');
@@ -35,7 +33,7 @@ class LiveCountPage extends StatelessWidget {
                 FlatButton(
                   child: Text('Try again'),
                   onPressed: () {
-                    indiaStatBloc.add(india.LoadLiveStatEvent(liveStatBloc: indiaStatBloc,graphValueBloc: graphValueBloc));
+                    indiaStatBloc.add(india.LoadLiveStatEvent(liveStatBloc: indiaStatBloc));
                     // Navigator.pop(context);
                   },
                 )
@@ -54,7 +52,7 @@ class LiveCountPage extends StatelessWidget {
                 FlatButton(
                   child: Text('Try again'),
                   onPressed: () {
-                    indiaStatBloc.add(india.LoadLiveStatEvent(liveStatBloc: indiaStatBloc,graphValueBloc: graphValueBloc));
+                    indiaStatBloc.add(india.LoadLiveStatEvent(liveStatBloc: indiaStatBloc));
                     // Navigator.pop(context);
                   },
                 )
@@ -69,7 +67,7 @@ class LiveCountPage extends StatelessWidget {
                   // height: MediaQuery.of(context).size.height,
                   child: Stack(children: <Widget>[
                     bgImageContainer(context),
-                    indianStat(liveStatState, worldStatBloc,context, statList,graphValueBloc),
+                    indianStat(liveStatState, worldStatBloc,context, statList),
                   ]),
                 ),
               ],
@@ -157,11 +155,10 @@ class LiveCountPage extends StatelessWidget {
   }
 
   Column indianStat(india.FetchCompleteState liveStatState,world.WorldstatBloc worldStatBloc,
-      BuildContext context, LiveStat statList,GraphValueBloc graphValueBloc) {
+      BuildContext context, LiveStat statList) {
     return Column(
       children: <Widget>[
-        Text('Chart:',style: TextStyle(color:Colors.black,fontSize:20),),
-        DateVsCasesChart(bloc:graphValueBloc),
+        DateVsCasesChart(liveStatState.statList),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text('(Date vs # Cases in INDIA)',

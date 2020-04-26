@@ -12,11 +12,11 @@ class InitialLiveStatEvent extends LiveStatEvent {
 
 class LoadLiveStatEvent extends LiveStatEvent {
   final LiveStatBloc liveStatBloc;
-  final GraphValueBloc graphValueBloc;
+  // final GraphValueBloc graphValueBloc;
 
   LoadLiveStatEvent({
     this.liveStatBloc,
-    this.graphValueBloc,
+    // this.graphValueBloc,
   });
 
   @override
