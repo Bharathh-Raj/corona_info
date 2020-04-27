@@ -158,9 +158,13 @@ class LiveCountPage extends StatelessWidget {
       BuildContext context, LiveStat statList) {
     return Column(
       children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top:8.0),
+          child: Text('CHART',style: TextStyle(color: Theme.of(context).accentColor,fontWeight: FontWeight.bold,fontSize: 18),),
+        ),
         DateVsCasesChart(liveStatState.statList),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(top:16.0,bottom:6),
           child: Text('(Date vs # Cases in INDIA)',
               style: TextStyle(
                   fontSize: 10,

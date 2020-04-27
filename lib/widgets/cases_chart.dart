@@ -72,16 +72,6 @@ class _DateVsCasesChartState extends State<DateVsCasesChart> {
       flSpotList.add(FlSpot(double.parse(i.toString()),double.parse(casesList[i].toString())/baseYData));
     }
 
-    print(baseYaxisData('1024').toString());
-    print(baseYaxisData('7424').toString());
-    print(baseYaxisData('13224').toString());
-    print(baseYaxisData('1924').toString());
-    print(baseYaxisData('19024').toString());
-    print(baseYaxisData('343024').toString());
-    print(baseYaxisData('12').toString());
-    print(baseYaxisData('99999').toString());
-
-
     return Stack(
       children: <Widget>[
         Container(
@@ -151,18 +141,21 @@ class _DateVsCasesChartState extends State<DateVsCasesChart> {
           showTitles: true,
           reservedSize: 22,
           textStyle: TextStyle(
-              color: Colors.white, fontSize: 6),
+              color: Colors.white, fontSize: 8),
           getTitles: (value) {
             String presentValue=dateList[value.toInt()];
-            return presentValue.substring(8,10)+"\n-"+'\n'+presentValue.substring(5,7);
+            if(value%4==0)
+              return presentValue.substring(8,10)+"\n-"+'\n'+presentValue.substring(5,7);
+            else 
+              return '';
           },
-          margin: 8,
+          margin: 6,
         ),
         leftTitles: SideTitles(                             //Y AXIS DATA
           showTitles: true,
           textStyle: TextStyle(
             color: Colors.white,
-            fontSize: 12,
+            fontSize: 9,
           ),
           getTitles: (value) {
             // if(value==8){
