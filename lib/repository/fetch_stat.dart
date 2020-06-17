@@ -36,7 +36,8 @@ Future<List<LiveStat>> fetchStat(LiveStatBloc statBloc) async{
 }
 
 List<LiveStat> getDateList(List<LiveStat> livestat){
-  List<LiveStat> reversedStat=new List.from(livestat.reversed);
+  // List<LiveStat> reversedStat=new List.from(livestat.reversed);
+  List<LiveStat> reversedStat=livestat;
   List<int> indOfStatPerDay=[];
   indOfStatPerDay.add(0);
   for(int i=0;i<reversedStat.length-1;i++){

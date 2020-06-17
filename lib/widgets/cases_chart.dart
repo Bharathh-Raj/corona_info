@@ -21,12 +21,14 @@ class _DateVsCasesChartState extends State<DateVsCasesChart> {
   List<String> dateList;
   List<FlSpot> flSpotList;
 
+  double dividerToGetTwentyEntries;
+
   int baseYData;
 
   int baseYaxisData(String lastCaseNumber){
     double secondDigit=double.parse(lastCaseNumber.substring(1,2));
     StringBuffer baseY;
-    if(secondDigit>5){
+    if(secondDigit>=5){
       baseY=new StringBuffer();
       for(int i=0;i<lastCaseNumber.length;i++){
         if(i==0)
@@ -56,22 +58,55 @@ class _DateVsCasesChartState extends State<DateVsCasesChart> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     dateList = new List<String>();
     casesList = new List<String>();
     flSpotList=new List<FlSpot>();
+
+    // dividerToGetTwentyEntries=dateList.length%20;
 
     widget.statList.forEach((val) {
       dateList.add(val.recordDate.substring(0, 10));
       casesList.add(val.totalCases);
     });
 
-    baseYData=baseYaxisData(casesList.last)~/8;
+    baseYData=(baseYaxisData(casesList.last))~/8;
 
     for(int i=0;i<dateList.length;i++){
       flSpotList.add(FlSpot(double.parse(i.toString()),double.parse(casesList[i].toString())/baseYData));
     }
 
+    for(int i=0;i<casesList.length;i++){
+      print('✅✅'+casesList[i]+"=="+dateList[i]);
+    }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // dateList = new List<String>();
+    // casesList = new List<String>();
+    // flSpotList=new List<FlSpot>();
+
+    // widget.statList.forEach((val) {
+    //   dateList.add(val.recordDate.substring(0, 10));
+    //   casesList.add(val.totalCases);
+    // });
+
+    // casesList=casesList.reversed.toList();
+    // dateList=dateList.reversed.toList();
+
+    // baseYData=(baseYaxisData(casesList.last))~/8;
+
+    // for(int i=0;i<dateList.length;i++){
+    //   flSpotList.add(FlSpot(double.parse(i.toString()),double.parse(casesList[i].toString())/baseYData));
+    // }
+
+    // for(int i=0;i<casesList.length;i++){
+    //   print('✅✅'+casesList[i]+"=="+dateList[i]);
+    // }
+    dividerToGetTwentyEntries=dateList.length/20;
+    
     return Stack(
       children: <Widget>[
         Container(
@@ -144,8 +179,10 @@ class _DateVsCasesChartState extends State<DateVsCasesChart> {
               color: Colors.white, fontSize: 8),
           getTitles: (value) {
             String presentValue=dateList[value.toInt()];
-            if(value%4==0)
+            if(value%dividerToGetTwentyEntries<1){
+              print(value);
               return presentValue.substring(8,10)+"\n-"+'\n'+presentValue.substring(5,7);
+            }
             else 
               return '';
           },
